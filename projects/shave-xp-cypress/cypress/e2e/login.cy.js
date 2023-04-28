@@ -1,3 +1,6 @@
+import loginPage from '../support/pages/login'
+import shaversPage from '../support/pages/shavers'
+
 describe('login', () => {
 
     context('Quando submeto o formulário', () => {
@@ -8,19 +11,8 @@ describe('login', () => {
                 password: 'Jv@81231120'
             }
 
-            cy.visit('http://localhost:3000')
-            cy.get('input[placeholder="Seu email"]').type(user.email)
-            // O seletor abaixo procura por um placeholder que contém "senha"
-            cy.get('input[placeholder*=senha]').type(user.password)
-            // O seletor abaixo procura por um placeholder que termina com "secreta"
-            // cy.get('input[placeholder$=secreta]').type(user.password)
-            // O seletor abaixo procura por um placeholder que começa com "sua"
-            // cy.get('input[placeholder^=sua]').type(user.password)
-
-            cy.contains('button', 'Entrar').click()
-            cy.get('.logged-user div a')
-                .should('be.visible')
-                .should('have.text', 'Olá, ' + user.name)
+            loginPage.submit(user.email, user.password)
+            shaversPage.header.userShouldBeLoggedIn(user.name)
         });
 
         it('não deve logar com senha incorreta', function () {
@@ -31,14 +23,8 @@ describe('login', () => {
                 message: 'Ocorreu um erro ao fazer login, verifique suas credenciais.'
             }
 
-            cy.visit('http://localhost:3000')
-            cy.get('input[placeholder="Seu email"]').type(user.email)
-            cy.get('input[placeholder*=senha]').type(user.password)
-            cy.contains('button', 'Entrar').click()
-            cy.get('.notice-container')
-                .should('be.visible')
-                .find('.error p')
-                .should('have.text', user.message)
+            loginPage.submit(user.email, user.password)
+            loginPage.noticeShouldBe(user.message)
 
         });
 
@@ -50,17 +36,26 @@ describe('login', () => {
                 message: 'Ocorreu um erro ao fazer login, verifique suas credenciais.'
             }
 
-            cy.visit('http://localhost:3000')
-            cy.get('input[placeholder="Seu email"]').type(user.email)
-            cy.get('input[placeholder*=senha]').type(user.password)
-            cy.contains('button', 'Entrar').click()
-            cy.get('.notice-container')
-                .should('be.visible')
-                .find('.error p')
-                .should('have.text', user.message)
-
+            loginPage.submit(user.email, user.password)
+            loginPage.noticeShouldBe(user.message)
         });
-        
+
+        it('campos obrigatórios', function () {
+            loginPage.submit()
+
+            // cy.contains('.alert-error', 'E-mail é obrigatório')
+            //     .should('be.visible')
+            // cy.contains('.alert-error', 'Senha é obrigatória')
+            //     .should('be.visible')
+
+            cy.get('.alert-error')
+                .should('have.length', 2)
+                .and(($small) => {
+                    expect($small.get(0).textContent).to.equal('E-mail é obrigatório')
+                    expect($small.get(1).textContent).to.equal('Senha é obrigatória')
+                })
+        });
+
     })
 
 })
