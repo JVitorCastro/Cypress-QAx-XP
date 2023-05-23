@@ -4,7 +4,7 @@ import shaversPage from '../support/pages/shavers'
 describe('login', () => {
 
     context('Quando submeto o formulário', () => {
-        it('Deve logar com sucesso no sistema', function () {
+        it('Deve logar com sucesso no sistema', () => {
             const user = {
                 name: 'João',
                 email: 'srvitorcastro@gmail.com',
@@ -13,9 +13,9 @@ describe('login', () => {
 
             loginPage.submit(user.email, user.password)
             shaversPage.header.userShouldBeLoggedIn(user.name)
-        });
+        })
 
-        it('não deve logar com senha incorreta', function () {
+        it('não deve logar com senha incorreta', () => {
             const user = {
                 name: 'João',
                 email: 'srvitorcastro@gmail.com',
@@ -26,9 +26,9 @@ describe('login', () => {
             loginPage.submit(user.email, user.password)
             loginPage.noticeShouldBe(user.message)
 
-        });
+        })
 
-        it('não deve logar com email não cadastrado', function () {
+        it('não deve logar com email não cadastrado',() => {
             const user = {
                 name: 'João',
                 email: 'srvitorcastro@404.com',
@@ -38,9 +38,9 @@ describe('login', () => {
 
             loginPage.submit(user.email, user.password)
             loginPage.noticeShouldBe(user.message)
-        });
+        })
 
-        it('campos obrigatórios', function () {
+        it('campos obrigatórios', () => {
             loginPage.submit()
 
             // cy.contains('.alert-error', 'E-mail é obrigatório')
@@ -49,7 +49,7 @@ describe('login', () => {
             //     .should('be.visible')
 
             loginPage.requiredFields('E-mail é obrigatório', 'Senha é obrigatória')
-        });
+        })
     })
 
     context('Senha muito curta', () => {
@@ -65,7 +65,7 @@ describe('login', () => {
             it(`Não deve logar com a senha: ${p}`, () => {
                 loginPage.submit('teste@gmail.com', p)
                 loginPage.alertShouldBe('Pelo menos 6 caracteres')
-            });
+            })
         })
     })
 
@@ -85,7 +85,7 @@ describe('login', () => {
             it(`Não deve logar com o email: ${e}`, () => {
                 loginPage.submit(e, 'pwd123')
                 loginPage.alertShouldBe('Informe um email válido')
-            });
+            })
         })
     })
 
