@@ -48,14 +48,45 @@ describe('login', () => {
             // cy.contains('.alert-error', 'Senha é obrigatória')
             //     .should('be.visible')
 
-            cy.get('.alert-error')
-                .should('have.length', 2)
-                .and(($small) => {
-                    expect($small.get(0).textContent).to.equal('E-mail é obrigatório')
-                    expect($small.get(1).textContent).to.equal('Senha é obrigatória')
-                })
+            loginPage.requiredFields('E-mail é obrigatório', 'Senha é obrigatória)
         });
+    })
 
+    context('Senha muito curta', () => {
+        const passwords = [
+            '1',
+            '12',
+            '123',
+            '1234',
+            '12345'
+        ]
+
+        passwords.forEach((p)=> {
+            it(`Não deve logar com a senha: ${p}`, () => {
+                loginPage.submit('teste@gmail.com', p)
+                loginPage.alertShouldBe('Pelo menos 6 caracteres')
+            });
+        })
+    })
+
+    context('Email no formato incorreto', () => {
+        const email = [
+            'teste.com.br',
+            '@gmail.com',
+            'teste#gmail.com',
+            '@',
+            'teste@',
+            '1321654',
+            '#!$@#%$!#$',
+            'xpto123'
+        ]
+
+        email.forEach((e)=> {
+            it(`Não deve logar com o email: ${e}`, () => {
+                loginPage.submit(e, 'pwd123')
+                loginPage.alertShouldBe('Informe um email válido')
+            });
+        })
     })
 
 })
