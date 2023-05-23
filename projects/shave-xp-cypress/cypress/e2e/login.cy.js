@@ -48,7 +48,7 @@ describe('login', () => {
             // cy.contains('.alert-error', 'Senha é obrigatória')
             //     .should('be.visible')
 
-            loginPage.requiredFields('E-mail é obrigatório', 'Senha é obrigatória)
+            loginPage.requiredFields('E-mail é obrigatório', 'Senha é obrigatória')
         });
     })
 

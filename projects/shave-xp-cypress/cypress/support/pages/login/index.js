@@ -26,13 +26,13 @@ class LoginPage {
     }
 
     alertShouldBe(message) {
-        cy.get(alertError)
+        cy.get(this.alertError)
             .should('be.visible')
             .should('have.text', message)
     }
 
     requiredFields(emailMessage, passwordMessage){
-        cy.get(alertError)
+        cy.get(this.alertError)
             .should('have.length', 2)
             .and(($small) => {
                 expect($small.get(0).textContent).to.equal(emailMessage)
