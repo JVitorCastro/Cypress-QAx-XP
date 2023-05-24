@@ -1,5 +1,35 @@
 {
-  "name": "João",
-  "email": "srvitorcastro@gmail.com",
-  "password": "Jv@81231120"
+  "success": {
+    "name": "João",
+    "email": "srvitorcastro@gmail.com",
+    "password": "Jv@81231120"
+  },
+  "invpass": {
+    "email": "srvitorcastro@gmail.com",
+    "password": "231120",
+    "message": "Ocorreu um erro ao fazer login, verifique suas credenciais."
+  },
+  "email404": {
+    "email": "srvitorcastro@404.com",
+    "password": "231120",
+    "message": "Ocorreu um erro ao fazer login, verifique suas credenciais."
+  },
+  "shortpass": [
+    "1",
+    "12",
+    "123",
+    "1234",
+    "12345"
+  ],
+  "invemails": [
+    "teste.com.br",
+    "@gmail.com",
+    "teste#gmail.com",
+    "@",
+    "teste@",
+    "1321654",
+    "#!$@#%$!#$",
+    "xpto123"
+  ]
+
 }

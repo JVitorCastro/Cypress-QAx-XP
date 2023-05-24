@@ -11,34 +11,21 @@ describe('login', () => {
             //     loginPage.submit(data.email, data.password)
             //     shaversPage.header.userShouldBeLoggedIn(data.name)
             // })
-            
-            loginPage.submit(data.email, data.password)
-            shaversPage.header.userShouldBeLoggedIn(data.name)
+
+            loginPage.submit(data.success.email, data.success.password)
+            shaversPage.header.userShouldBeLoggedIn(data.success.name)
         })
 
         it('não deve logar com senha incorreta', () => {
-            const user = {
-                name: 'João',
-                email: 'srvitorcastro@gmail.com',
-                password: '231120',
-                message: 'Ocorreu um erro ao fazer login, verifique suas credenciais.'
-            }
-
-            loginPage.submit(user.email, user.password)
-            loginPage.noticeShouldBe(user.message)
+            loginPage.submit(data.invpass.email, data.invpass.password)
+            loginPage.noticeShouldBe(data.invpass.message)
 
         })
 
         it('não deve logar com email não cadastrado',() => {
-            const user = {
-                name: 'João',
-                email: 'srvitorcastro@404.com',
-                password: '231120',
-                message: 'Ocorreu um erro ao fazer login, verifique suas credenciais.'
-            }
 
-            loginPage.submit(user.email, user.password)
-            loginPage.noticeShouldBe(user.message)
+            loginPage.submit(data.email404.email, data.email404.password)
+            loginPage.noticeShouldBe(data.email404.message)
         })
 
         it('campos obrigatórios', () => {
@@ -54,15 +41,7 @@ describe('login', () => {
     })
 
     context('Senha muito curta', () => {
-        const passwords = [
-            '1',
-            '12',
-            '123',
-            '1234',
-            '12345'
-        ]
-
-        passwords.forEach((p)=> {
+        data.shortpass.forEach((p)=> {
             it(`Não deve logar com a senha: ${p}`, () => {
                 loginPage.submit('teste@gmail.com', p)
                 loginPage.alertShouldBe('Pelo menos 6 caracteres')
@@ -71,18 +50,7 @@ describe('login', () => {
     })
 
     context('Email no formato incorreto', () => {
-        const email = [
-            'teste.com.br',
-            '@gmail.com',
-            'teste#gmail.com',
-            '@',
-            'teste@',
-            '1321654',
-            '#!$@#%$!#$',
-            'xpto123'
-        ]
-
-        email.forEach((e)=> {
+        data.invemails.forEach((e)=> {
             it(`Não deve logar com o email: ${e}`, () => {
                 loginPage.submit(e, 'pwd123')
                 loginPage.alertShouldBe('Informe um email válido')
