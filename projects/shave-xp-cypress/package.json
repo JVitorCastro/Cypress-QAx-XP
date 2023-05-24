@@ -18,6 +18,7 @@
   "author": "J.Vitor Castro",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^12.9.0"
+    "cypress": "^12.9.0",
+    "pg": "^8.11.0"
   }
 }
