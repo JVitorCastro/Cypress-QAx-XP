@@ -18,7 +18,12 @@
   "author": "J.Vitor Castro",
   "license": "ISC",
   "devDependencies": {
+    "bcrypt": "^5.1.0",
     "cypress": "^12.9.0",
+    "nodemon": "^2.0.22",
     "pg": "^8.11.0"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
   }
 }

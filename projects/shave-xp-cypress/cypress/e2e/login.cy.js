@@ -12,17 +12,7 @@ describe('login', () => {
       //     shaversPage.header.userShouldBeLoggedIn(data.name)
       // })
 
-      cy.task('removeUser', data.success.email)
-        .then(function (result){
-          console.log(result)
-        })
-      cy.request({
-        method: 'POST',
-        url: 'http://localhost:3333/users',
-        body: data.success
-      }).then(function (response){
-        expect(response.status).to.eq(201)
-      })
+      cy.createUser(data.success)
 
       loginPage.submit(data.success.email, data.success.password)
       shaversPage.header.userShouldBeLoggedIn(data.success.name)

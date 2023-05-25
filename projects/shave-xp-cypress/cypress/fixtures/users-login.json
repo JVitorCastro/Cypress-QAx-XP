@@ -2,7 +2,8 @@
   "success": {
     "name": "João",
     "email": "srvitorcastro@gmail.com",
-    "password": "Jv@81231120"
+    "password": "Jv@81231120",
+    "is_shaver": false
   },
   "invpass": {
     "email": "srvitorcastro@gmail.com",
