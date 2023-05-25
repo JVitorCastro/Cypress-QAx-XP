@@ -20,6 +20,8 @@
   "devDependencies": {
     "bcrypt": "^5.1.0",
     "cypress": "^12.9.0",
+    "express-joi-validation": "^5.0.1",
+    "joi": "^17.9.2",
     "nodemon": "^2.0.22",
     "pg": "^8.11.0"
   },
