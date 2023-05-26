@@ -7,17 +7,28 @@ const app = express()
 
 app.use(express.json())
 
-const { deleteUser, insertUser } = require('./db')
+const { deleteUser, insertUser, findToken } = require('./db')
 
 const userSchema = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string().email().required(),
-  password: Joi.string().required(),
-  is_shaver: Joi.boolean().required()
+	name: Joi.string().required(),
+	email: Joi.string().email().required(),
+	password: Joi.string().required(),
+	is_shaver: Joi.boolean().required()
 })
 
 app.get('/welcome', function (req, res) {
 	res.json({ message: 'Olá QAx!' })
+})
+
+app.get('/token/:email', async function (req, res) {
+	const { email } = req.params
+	const token = await findToken(email)
+
+	if(!token) {
+		return res.status(404).end()
+	}
+
+	res.status(200).json(token)
 })
 
 app.delete('/user/:email', async function (req, res) {
@@ -26,6 +37,7 @@ app.delete('/user/:email', async function (req, res) {
 
 	res.status(204).end()
 })
+
 
 app.post('/user', validator.body(userSchema), async function (req, res) {
 	const { name, email, password, is_shaver } = req.body
@@ -42,8 +54,6 @@ app.post('/user', validator.body(userSchema), async function (req, res) {
 		return res.status(400).json({ message: 'Every field is mandatory.' })
 	}
 
-	console.log(user)
-
 	try {
 		await deleteUser(user.email)
 		const id = await insertUser(user)
@@ -54,16 +64,16 @@ app.post('/user', validator.body(userSchema), async function (req, res) {
 })
 
 app.use((err, req, res, next) => {
-  if (err && err.error && err.error.isJoi) {
-    // we had a joi error, let's return a custom 400 json response
-    res.status(400).json({
-      type: err.type, // will be "query" here, but could be "headers", "body", or "params"
-      message: err.error.toString()
-    });
-  } else {
-    // pass on to another error handler
-    next(err);
-  }
+	if (err && err.error && err.error.isJoi) {
+		// we had a joi error, let's return a custom 400 json response
+		res.status(400).json({
+			type: err.type, // will be "query" here, but could be "headers", "body", or "params"
+			message: err.error.toString()
+		});
+	} else {
+		// pass on to another error handler
+		next(err);
+	}
 });
 
 app.listen(5000)
