@@ -1,0 +1,32 @@
+{
+  "success": {
+    "name": "Papito Rocks",
+    "email": "papito@gmail.com",
+    "password": "pwd123",
+    "is_shaver": false
+  },
+  "sameEmail": {
+    "name": "Agatha Espanha",
+    "email": "agathafranca@outlook.com",
+    "password": "pwd123",
+    "is_shaver": false
+  },
+  "shortpass": [
+    "1",
+    "12",
+    "123",
+    "1234",
+    "12345"
+  ],
+  "invemail": [
+    "agatha&gmail.com",
+    "agatha.com.br",
+    "agatha.com.",
+    "@gmail.com",
+    "@",
+    "agatha@",
+    "1231651",
+    "@!@#¨$&",
+    "xpto123"
+  ]
+}

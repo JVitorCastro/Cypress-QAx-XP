@@ -30,20 +30,21 @@ import loginPage from '../support/pages/login'
 import shaversPage from '../support/pages/shavers'
 
 Cypress.Commands.add('createUser', (user) => {
-
-  // cy.request({
-  //   method: 'DELETE',
-  //   url: 'http://localhost:5000/user/' + user.email
-  // }).then(function (response) {
-  //   expect(response.status).to.eq(204)
-  // })
-
   cy.request({
     method: 'POST',
     url: 'http://localhost:5000/user',
     body: user
   }).then(function (response) {
     expect(response.status).to.eq(201)
+  })
+})
+
+Cypress.Commands.add('deleteUser', (user) => {
+  cy.request({
+    method: 'DELETE',
+    url: 'http://localhost:5000/user/' + user.email
+  }).then(function (response) {
+    expect(response.status).to.eq(204)
   })
 })
 
@@ -76,11 +77,11 @@ Cypress.Commands.add('apiLogin', (user) => {
   cy.request({
     method: 'POST',
     url: 'http://localhost:3333/sessions',
-    body: {email: user.email, password: user.password}
+    body: { email: user.email, password: user.password }
   }).then(response => {
     expect(response.status).to.eql(200)
 
-    const {user, token} = response.body
+    const { user, token } = response.body
 
     window.localStorage.setItem('@ShaveXP:token', token)
     window.localStorage.setItem('@ShaveXP:user', JSON.stringify(user))
