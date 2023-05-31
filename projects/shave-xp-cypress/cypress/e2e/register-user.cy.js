@@ -1,4 +1,4 @@
-import registerUserPage from '../support/pages/register-user'
+import registerUserPage from '../support/pages/views/register-user'
 import data from '../fixtures/user-register.json'
 
 describe('Faça seu cadastro', () => {
@@ -13,7 +13,7 @@ describe('Faça seu cadastro', () => {
       registerUserPage.submit(user.name, user.email, user.password)
 
       const message = 'Boas vindas, faça login para solicitar serviços!'
-      registerUserPage.noticeShouldBe(message)
+      registerUserPage.shared.noticeSuccessShouldBe(message)
     })
 
     it('Não deve recadastrar um email que já existe', () => {
@@ -26,7 +26,7 @@ describe('Faça seu cadastro', () => {
       registerUserPage.submit(user.name, user.email, user.password)
 
       const message = 'Oops! E-mail já cadastrado.'
-      registerUserPage.noticeShouldBe(message)
+      registerUserPage.shared.noticeErrorShouldBe(message)
     })
 
     it('campos obrigatórios', () => {
@@ -41,7 +41,7 @@ describe('Faça seu cadastro', () => {
     data.shortpass.forEach((p) => {
       it(`Não deve cadastrar com a senha: ${p}`, () => {
         registerUserPage.submit('Papito Rocks', 'papito@teste.com.br', p)
-        registerUserPage.alertShouldBe('Pelo menos 6 caracteres')
+        registerUserPage.shared.alertShouldBe('Pelo menos 6 caracteres')
       })
     })
   })
@@ -50,7 +50,7 @@ describe('Faça seu cadastro', () => {
     data.invemail.forEach((e) => {
       it(`Não deve cadastrar com o email: ${e}`, () => {
         registerUserPage.submit('Agatha França', e, 'pwd123')
-        registerUserPage.alertShouldBe('Informe um email válido')
+        registerUserPage.shared.alertShouldBe('Informe um email válido')
       });
     })
   })

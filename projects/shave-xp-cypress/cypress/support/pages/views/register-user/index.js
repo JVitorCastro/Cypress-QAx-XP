@@ -1,6 +1,9 @@
+import shared from '../../shared'
+
 class registerUserPage {
+
   constructor() {
-    this.alertError = '.alert-error'
+    this.shared = shared
   }
 
   go() {
@@ -34,20 +37,8 @@ class registerUserPage {
 
   }
 
-  noticeShouldBe(expectedText) {
-    cy.get('.notice p', { timeout: 30000 })
-      .should('be.visible')
-      .should('have.text', expectedText)
-  }
-
-  alertShouldBe(message) {
-    cy.get(this.alertError)
-      .should('be.visible')
-      .should('have.text', message)
-  }
-
   requiredFields(nameMessage, emailMessage, passwordMessage) {
-    cy.get(this.alertError)
+    cy.get('.alert-error')
       .should('have.length', 3)
       .and(($small) => {
         expect($small.get(0).textContent).to.equal(nameMessage)
