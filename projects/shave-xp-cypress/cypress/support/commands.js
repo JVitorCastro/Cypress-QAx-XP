@@ -26,8 +26,8 @@
 
 
 import data from "../fixtures/users-login.json"
-import loginPage from '../support/pages/login'
-import shaversPage from '../support/pages/shavers'
+import loginPage from '../support/pages/views/login'
+import shaversPage from '../support/pages/views/shavers'
 
 Cypress.Commands.add('createUser', (user) => {
   cy.request({
