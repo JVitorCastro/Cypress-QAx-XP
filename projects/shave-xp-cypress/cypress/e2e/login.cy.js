@@ -1,5 +1,3 @@
-import loginPage from '../support/pages/views/login'
-import shaversPage from '../support/pages/views/shavers'
 import data from '../fixtures/users-login.json'
 
 describe('login', () => {
@@ -11,42 +9,53 @@ describe('login', () => {
       //     loginPage.submit(data.email, data.password)
       //     shaversPage.header.userShouldBeLoggedIn(data.name)
       // })
+      const user = data.success
+      cy.createUser(user)
 
-      cy.createUser(data.success)
-
-      loginPage.submit(data.success.email, data.success.password)
-      shaversPage.header.userShouldBeLoggedIn(data.success.name)
+      // loginPage.submit(data.success.email, data.success.password)
+      // shaversPage.header.userShouldBeLoggedIn(user.name)
+      cy.submitLogin(user.email, user.password)
+      cy.userShouldBeLoggedIn(user.name)
     })
 
     it('não deve logar com senha incorreta', () => {
-      loginPage.submit(data.invpass.email, data.invpass.password)
-      loginPage.shared.noticeErrorShouldBe(data.invpass.message)
+      const user = data.invpass
 
+      cy.submitLogin(user.email, user.password)
+      // loginPage.shared.noticeErrorShouldBe(user.message)
+      cy.noticeErrorShouldBe(user.message)
     })
 
     it('não deve logar com email não cadastrado',() => {
+      const user = data.email404
 
-      loginPage.submit(data.email404.email, data.email404.password)
-      loginPage.shared.noticeErrorShouldBe(data.email404.message)
+      cy.submitLogin(user.email, user.password)
+      // loginPage.shared.noticeErrorShouldBe(user.message)
+      cy.noticeErrorShouldBe(user.message)
     })
 
     it('campos obrigatórios', () => {
-      loginPage.submit()
+      cy.submitLogin()
+
+      cy.get('.alert-error')
+			.should('have.length', 2)
+			.and(($small) => {
+				expect($small.get(0).textContent).to.equal('E-mail é obrigatório')
+				expect($small.get(1).textContent).to.equal('Senha é obrigatória')
+			})
 
       // cy.contains('.alert-error', 'E-mail é obrigatório')
       //     .should('be.visible')
       // cy.contains('.alert-error', 'Senha é obrigatória')
       //     .should('be.visible')
-
-      loginPage.requiredFields('E-mail é obrigatório', 'Senha é obrigatória')
     })
   })
 
   context('Senha muito curta', () => {
     data.shortpass.forEach((p)=> {
       it(`Não deve logar com a senha: ${p}`, () => {
-        loginPage.submit('teste@gmail.com', p)
-        loginPage.shared.alertShouldBe('Pelo menos 6 caracteres')
+        cy.submitLogin('teste@gmail.com', p)
+        cy.alertShouldBe('Pelo menos 6 caracteres')
       })
     })
   })
@@ -54,8 +63,8 @@ describe('login', () => {
   context('Email no formato incorreto', () => {
     data.invemails.forEach((e)=> {
       it(`Não deve logar com o email: ${e}`, () => {
-        loginPage.submit(e, 'pwd123')
-        loginPage.shared.alertShouldBe('Informe um email válido')
+        cy.submitLogin(e, 'pwd123')
+        cy.alertShouldBe('Informe um email válido')
       })
     })
   })
