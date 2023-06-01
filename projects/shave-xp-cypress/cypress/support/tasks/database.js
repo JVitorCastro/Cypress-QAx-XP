@@ -1,10 +1,12 @@
-const {Pool} = require("pg");
+const {Pool} = require("pg")
+require('dotenv').config()
+
 const dbConfig = {
-  host: 'motty.db.elephantsql.com',
-  user: 'gtheequl',
-  password: 'ZBCNIjKfD3fpxpkkWgIyo_LFyFzG2A_A',
-  database: 'gtheequl',
-  port: 5432
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT
 }
 
 module.exports = {
